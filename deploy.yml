@@ -1,0 +1,36 @@
+service: optimus
+
+image: foggers21/optimus
+
+ssh:
+  user: ubuntu
+  keys: [ "~/.ssh/optimus-ed.pem" ]
+
+servers:
+  web:
+    hosts:
+      - ec2-18-197-129-186.eu-central-1.compute.amazonaws.com
+#    cmd: "./bin/thrust ./bin/rails server"
+
+proxy:
+  ssl: false
+  host: ec2-18-197-129-186.eu-central-1.compute.amazonaws.com
+
+registry:
+  username: foggers21
+
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    - KAMAL_REGISTRY_PASSWORD
+
+aliases:
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+
+# Configure the image builder.
+builder:
+  arch: amd64
+  dockerfile: Dockerfile
