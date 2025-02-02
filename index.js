@@ -1,29 +1,31 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
-const bodyParser = require('body-parser');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-app.use(bodyParser.text({ type: 'text/html' }));
-app.use(express.json({ limit: "5mb" }))
+app.use(express.json({ limit: process.env.MAX_REQUEST_SIZE || "5mb" }));
 
 app.post('/convert', async (req, res) => {
-    const { html } = req.body;
-    if (!html) {
+    const { content } = req.body;
+    if (!content) {
         return res.status(400).json({ error: "HTML content is required" });
     }
 
     let browser;
     try {
-        browser = await puppeteer.launch({ headless: "new" });
+        browser = await puppeteer.launch({
+            headless: "new",
+            args: ["--no-sandbox", "--disable-setuid-sandbox"]
+        });
         const page = await browser.newPage();
         await page.setViewport({width: 1080, height: 1080});
-        await page.setContent(html, { waitUntil: "networkidle0" });
+        await page.setContent(content, { waitUntil: "networkidle0" });
 
-        const screenshot = await page.screenshot({ type: "jpeg", quality: 80 });
+        // TODO: add png
+        const screenshot = await page.screenshot({ type: "jpeg", quality: 80, encoding: "base64" });
 
-        res.json({ image: screenshot.toString("base64") });
+        res.json({ image: screenshot });
     } catch (error) {
         res.status(500).json({ error: "Failed to convert HTML to JPEG", details: error.message });
     } finally {
