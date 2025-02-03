@@ -7,8 +7,8 @@ This **Node.js** service uses **Puppeteer** to convert HTML content into **JPEG*
 
 ### 1. Clone the Repository
 ```sh
-git clone https://github.com/your-username/html-to-jpeg-api.git
-cd html-to-jpeg-api
+git clone https://github.com/vanyavasylyshyn/html2image
+cd html2image
 ```
 
 ### 2. Install Dependencies
@@ -27,12 +27,12 @@ The server will start on `http://localhost:3000`
 
 ### 1. Build the Docker Image
 ```sh
-docker build -t html-to-jpeg-api .
+docker build -t html2image .
 ```
 
 ### 2. Run the Container
 ```sh
-docker run -p 3000:3000 --shm-size=1gb html-to-jpeg-api
+docker run -p 3000:3000 html2image
 ```
 
 ## 🔥 API Usage
@@ -89,5 +89,5 @@ docker run -p 4000:4000 -e PORT=4000 html-to-jpeg-api
 - Docker (optional)
 
 ## 📝 License
-MIT License © 2025 Your Name
+MIT License © 2025 Ivan Vasylyshyn
 
