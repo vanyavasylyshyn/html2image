@@ -1,2 +1,3 @@
 /node_modules
 /.kamal
+/config/deploy.yml
