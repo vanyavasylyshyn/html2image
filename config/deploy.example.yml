@@ -1,0 +1,33 @@
+service: service-name
+
+image: image-name
+
+ssh:
+  user: username
+  keys: [ "" ]
+
+servers:
+  web:
+    hosts:
+      - host
+
+proxy:
+  ssl: false
+  host: host
+
+registry:
+  username: username
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+env:
+  secret:
+    - KAMAL_REGISTRY_PASSWORD
+
+aliases:
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f
+
+builder:
+  arch: amd64
+  dockerfile: Dockerfile
