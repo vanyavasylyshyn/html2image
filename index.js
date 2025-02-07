@@ -6,6 +6,14 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json({ limit: process.env.MAX_REQUEST_SIZE || "5mb" }));
 
+app.get('/up', async (req, res) => {
+    try {
+        res.status(200).json({ message: "Server is healthy" });
+    } catch (error) {
+        res.status(500).json({ error: "Server is not healthy", details: error.message });
+    }
+})
+
 app.post('/convert', async (req, res) => {
     const { content } = req.body;
     if (!content) {
@@ -36,4 +44,6 @@ app.post('/convert', async (req, res) => {
 // Запуск сервера
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
+}).on('error', (error) => {
+    console.error('Server failed to start:', error);
 });
